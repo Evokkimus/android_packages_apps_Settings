@@ -53,8 +53,8 @@ public interface SearchFeatureProvider {
      */
     SearchIndexableResources getSearchIndexableResources();
 
-    default String getSettingsIntelligencePkgName() {
-        return "com.google.android.settings.intelligence";
+    default String getSettingsIntelligencePkgName(Context context) {
+        return "com.android.settings.intelligence";
     }
 
     /**
@@ -66,7 +66,7 @@ public interface SearchFeatureProvider {
         }
         toolbar.setOnClickListener(tb -> {
             final Intent intent = SEARCH_UI_INTENT;
-            intent.setPackage(getSettingsIntelligencePkgName());
+            intent.setPackage(getSettingsIntelligencePkgName(activity.getApplicationContext()));
 
             FeatureFactory.getFactory(
                     activity.getApplicationContext()).getSlicesFeatureProvider()
