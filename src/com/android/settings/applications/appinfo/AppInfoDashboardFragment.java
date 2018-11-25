@@ -172,6 +172,7 @@ public class AppInfoDashboardFragment extends DashboardFragment
                 .setParentFragment(this);
         use(AppStoragePreferenceController.class).setParentFragment(this);
         use(AppVersionPreferenceController.class).setParentFragment(this);
+        use(AppPackageNamePreferenceController.class).setParentFragment(this);
         use(InstantAppDomainsPreferenceController.class).setParentFragment(this);
 
         final WriteSystemSettingsPreferenceController writeSystemSettings =
@@ -203,14 +204,20 @@ public class AppInfoDashboardFragment extends DashboardFragment
         mDpm = (DevicePolicyManager) activity.getSystemService(Context.DEVICE_POLICY_SERVICE);
         mUserManager = (UserManager) activity.getSystemService(Context.USER_SERVICE);
         mPm = activity.getPackageManager();
-
         if (!ensurePackageInfoAvailable(activity)) {
             return;
         }
-
         startListeningToPackageRemove();
 
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        if (!ensurePackageInfoAvailable(getActivity())) {
+            return;
+        }
+        super.onCreatePreferences(savedInstanceState, rootKey);
     }
 
     @Override
